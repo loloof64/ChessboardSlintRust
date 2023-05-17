@@ -3,6 +3,18 @@ export component Chessboard inherits Rectangle {
     in property <color> whiteCellColor: navajowhite;
     in property <color> blackCellColor: peru;
     in property <color> coordinatesColor: yellow;
+    // Pieces from A8 to H1 (string array)
+    in property <[string]> pieces: [
+        "r", "n", "b", "q", "k", "b", "n", "r",
+        "p", "p", "p", "p", "p", "p", "p", "p",
+        ".", ".", ".", ".", ".", ".", ".", ".", 
+        ".", ".", ".", ".", ".", ".", ".", ".", 
+        ".", ".", ".", ".", ".", ".", ".", ".", 
+        ".", ".", ".", ".", ".", ".", ".", ".", 
+        "P", "P", "P", "P", "P", "P", "P", "P", 
+        "R", "N", "B", "Q", "K", "B", "N", "R", 
+    ];
+    in property <bool> whiteTurn: true;
     private property<length> cellsSize: min(root.width, root.height) * 11.1%;
 
     background: bgColor;
@@ -11,12 +23,37 @@ export component Chessboard inherits Rectangle {
         floor(value / divisor)
     }
 
+    function cellBackground(cellIndex: int) -> color {
+        ((mod(mod(cellIndex, 8) +  intDivision(cellIndex, 8), 2)) == 0) ? whiteCellColor : blackCellColor
+    }
+
+    function cellImagePath(cellValue: string) -> image {
+        if (cellValue == "P") {return @image-url("images/Chess_plt45.svg");}
+        if (cellValue == "N") {return @image-url("images/Chess_nlt45.svg");}
+        if (cellValue == "B") {return @image-url("images/Chess_blt45.svg");}
+        if (cellValue == "R") {return @image-url("images/Chess_rlt45.svg");}
+        if (cellValue == "Q") {return @image-url("images/Chess_qlt45.svg");}
+        if (cellValue == "K") {return @image-url("images/Chess_klt45.svg");}
+        if (cellValue == "p") {return @image-url("images/Chess_pdt45.svg");}
+        if (cellValue == "n") {return @image-url("images/Chess_ndt45.svg");}
+        if (cellValue == "b") {return @image-url("images/Chess_bdt45.svg");}
+        if (cellValue == "r") {return @image-url("images/Chess_rdt45.svg");}
+        if (cellValue == "q") {return @image-url("images/Chess_qdt45.svg");}
+        if (cellValue == "k") {return @image-url("images/Chess_kdt45.svg");}
+        return @image-url("images/void.svg");
+    }
+
     for cellIndex in 64: Rectangle {
         x: (mod(cellIndex, 8) + 0.5) * cellsSize;
         y: (intDivision(cellIndex, 8) + 0.5) * cellsSize;
         width: cellsSize;
         height: cellsSize;
-        background: ((mod(mod(cellIndex, 8) +  intDivision(cellIndex, 8), 2)) == 0) ? whiteCellColor : blackCellColor;
+        background: cellBackground(cellIndex);
+        Image {
+            source: cellImagePath(pieces[cellIndex]);
+            width: cellsSize;
+            height: cellsSize;
+        }
     }
 
     for fileIndex in 8 : Text {
