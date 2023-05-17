@@ -1,0 +1,57 @@
+export component Chessboard inherits Rectangle {
+    property <color> bgColor: cadetblue;
+    property <color> whiteCellColor: navajowhite;
+    property <color> blackCellColor: peru;
+    property <color> coordinatesColor: yellow;
+    private property<length> cellsSize: min(root.width, root.height) * 11.1%;
+
+    background: bgColor;
+
+    function intDivision(value: int, divisor: int) -> int {
+        floor(value / divisor)
+    }
+
+    for cellIndex in 64: Rectangle {
+        x: (mod(cellIndex, 8) + 0.5) * cellsSize;
+        y: (intDivision(cellIndex, 8) + 0.5) * cellsSize;
+        width: cellsSize;
+        height: cellsSize;
+        background: ((mod(mod(cellIndex, 8) +  intDivision(cellIndex, 8), 2)) == 0) ? whiteCellColor : blackCellColor;
+    }
+
+    for fileIndex in 8 : Text {
+        x: (fileIndex + 0.85) * cellsSize;
+        y: 0.10 * cellsSize;
+        font-size: 0.3 * cellsSize;
+        font-weight: 700;
+        color: coordinatesColor;
+        text: ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
+    }
+
+    for fileIndex in 8 : Text {
+        x: (fileIndex + 0.85) * cellsSize;
+        y: 8.60 * cellsSize;
+        font-size: 0.3 * cellsSize;
+        font-weight: 700;
+        color: coordinatesColor;
+        text: ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
+    }
+
+    for rankIndex in 8: Text {
+        x: 0.15 * cellsSize;
+        y: (rankIndex + 0.75) * cellsSize;
+        font-size: 0.3 * cellsSize;
+        font-weight: 700;
+        color: coordinatesColor;
+        text: ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
+    }
+
+    for rankIndex in 8: Text {
+        x: 8.65 * cellsSize;
+        y: (rankIndex + 0.75) * cellsSize;
+        font-size: 0.3 * cellsSize;
+        font-weight: 700;
+        color: coordinatesColor;
+        text: ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
+    }
+}
