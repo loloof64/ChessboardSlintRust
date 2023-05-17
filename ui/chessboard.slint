@@ -3,6 +3,7 @@ export component Chessboard inherits Rectangle {
     in property <color> whiteCellColor: navajowhite;
     in property <color> blackCellColor: peru;
     in property <color> coordinatesColor: yellow;
+    in property <bool> reversed: false;
     // Pieces from A8 to H1 (string array)
     in property <[string]> pieces: [
         "r", "n", "b", "q", "k", "b", "n", "r",
@@ -50,7 +51,7 @@ export component Chessboard inherits Rectangle {
         height: cellsSize;
         background: cellBackground(cellIndex);
         Image {
-            source: cellImagePath(pieces[cellIndex]);
+            source: cellImagePath(pieces[reversed ? 63 - cellIndex : cellIndex]);
             width: cellsSize;
             height: cellsSize;
         }
@@ -62,7 +63,7 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text: ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
+        text: reversed ? ["H", "G", "F", "E", "D", "C", "B", "A"][fileIndex] : ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
     }
 
     for fileIndex in 8 : Text {
@@ -71,7 +72,7 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text: ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
+        text: reversed ? ["H", "G", "F", "E", "D", "C", "B", "A"][fileIndex] : ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
     }
 
     for rankIndex in 8: Text {
@@ -80,7 +81,7 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text: ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
+        text: reversed ? ["1", "2", "3", "4", "5", "6", "7", "8"][rankIndex] : ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
     }
 
     for rankIndex in 8: Text {
@@ -89,6 +90,6 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text: ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
+        text:  reversed ? ["1", "2", "3", "4", "5", "6", "7", "8"][rankIndex] : ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
     }
 }
