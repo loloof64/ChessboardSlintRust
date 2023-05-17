@@ -1,8 +1,8 @@
 export component Chessboard inherits Rectangle {
-    property <color> bgColor: cadetblue;
-    property <color> whiteCellColor: navajowhite;
-    property <color> blackCellColor: peru;
-    property <color> coordinatesColor: yellow;
+    in property <color> bgColor: cadetblue;
+    in property <color> whiteCellColor: navajowhite;
+    in property <color> blackCellColor: peru;
+    in property <color> coordinatesColor: yellow;
     private property<length> cellsSize: min(root.width, root.height) * 11.1%;
 
     background: bgColor;
