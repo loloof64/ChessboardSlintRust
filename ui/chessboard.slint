@@ -63,7 +63,8 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text: reversed ? ["H", "G", "F", "E", "D", "C", "B", "A"][fileIndex] : ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
+        text: reversed ? ["H", "G", "F", "E", "D", "C", "B", "A"][fileIndex] : 
+        ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
     }
 
     for fileIndex in 8 : Text {
@@ -72,7 +73,8 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text: reversed ? ["H", "G", "F", "E", "D", "C", "B", "A"][fileIndex] : ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
+        text: reversed ? ["H", "G", "F", "E", "D", "C", "B", "A"][fileIndex] :
+        ["A", "B", "C", "D", "E", "F", "G", "H"][fileIndex];
     }
 
     for rankIndex in 8: Text {
@@ -81,7 +83,8 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text: reversed ? ["1", "2", "3", "4", "5", "6", "7", "8"][rankIndex] : ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
+        text: reversed ? ["1", "2", "3", "4", "5", "6", "7", "8"][rankIndex] : 
+        ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
     }
 
     for rankIndex in 8: Text {
@@ -90,6 +93,16 @@ export component Chessboard inherits Rectangle {
         font-size: 0.3 * cellsSize;
         font-weight: 700;
         color: coordinatesColor;
-        text:  reversed ? ["1", "2", "3", "4", "5", "6", "7", "8"][rankIndex] : ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
+        text:  reversed ? ["1", "2", "3", "4", "5", "6", "7", "8"][rankIndex] : 
+        ["8", "7", "6", "5", "4", "3", "2", "1"][rankIndex];
+    }
+
+    Rectangle {
+        x: 8.50 * cellsSize;
+        y: 8.50 * cellsSize;
+        width: 0.5 * cellsSize;
+        height: 0.5 * cellsSize;
+        border-radius: cellsSize;
+        background: whiteTurn ? white : black;
     }
 }
