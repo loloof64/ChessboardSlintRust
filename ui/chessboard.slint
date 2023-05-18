@@ -5,17 +5,11 @@ export component Chessboard inherits Rectangle {
     in property <color> blackCellColor: peru;
     in property <color> coordinatesColor: yellow;
     in property <bool> reversed: false;
-    in property <[string]> pieces: [
-        "r", "n", "b", "q", "k", "b", "n", "r",
-        "p", "p", "p", "p", "p", "p", "p", "p",
-        ".", ".", ".", ".", ".", ".", ".", ".", 
-        ".", ".", ".", ".", ".", ".", ".", ".", 
-        ".", ".", ".", ".", ".", ".", ".", ".", 
-        ".", ".", ".", ".", ".", ".", ".", ".", 
-        "P", "P", "P", "P", "P", "P", "P", "P", 
-        "R", "N", "B", "Q", "K", "B", "N", "R", 
-    ];
-    in property <bool> whiteTurn: true;
+    in property <string> positionFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+    pure callback get_piece_from_fen(string, int) -> string;
+    pure callback is_white_turn_in_fen(string) -> bool;
+
     private property<length> cellsSize: size * 11.1%;
 
     background: bgColor;
@@ -51,7 +45,7 @@ export component Chessboard inherits Rectangle {
         height: cellsSize;
         background: cellBackground(cellIndex);
         Image {
-            source: cellImagePath(pieces[reversed ? 63 - cellIndex : cellIndex]);
+            source: cellImagePath(get_piece_from_fen(positionFen, reversed ? 63 - cellIndex : cellIndex));
             width: cellsSize;
             height: cellsSize;
         }
@@ -103,6 +97,6 @@ export component Chessboard inherits Rectangle {
         width: 0.5 * cellsSize;
         height: 0.5 * cellsSize;
         border-radius: cellsSize;
-        background: whiteTurn ? white : black;
+        background: is_white_turn_in_fen(positionFen) ? white : black;
     }
 }

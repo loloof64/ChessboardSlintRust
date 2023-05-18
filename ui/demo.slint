@@ -1,5 +1,10 @@
 import { Chessboard } from "chessboard.slint";
 
+export global FenUtils {
+    pure callback get_piece_from_fen(string, int) -> string;
+    pure callback is_white_turn_in_fen(string) -> bool;
+}
+
 export component App inherits Window {
     min-width: 100px;
     min-height: 100px;
@@ -7,8 +12,14 @@ export component App inherits Window {
     preferred-height: 200px;
     background: lemonchiffon;
 
-    Chessboard {
+    board := Chessboard {
         reversed: true;
-        whiteTurn: false;
+        positionFen: "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
+        get_piece_from_fen(fen, cell_index) => {
+            FenUtils.get_piece_from_fen(fen, cell_index);
+        }
+        is_white_turn_in_fen(fen) => {
+            FenUtils.is_white_turn_in_fen(fen);
+        }
     }
 }
