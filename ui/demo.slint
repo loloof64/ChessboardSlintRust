@@ -12,7 +12,19 @@ export component App inherits Window {
     preferred-height: 200px;
     background: lemonchiffon;
 
-    board := Chessboard {
+    Chessboard {
+        size: min(root.width, root.height) * 0.4;
+        positionFen: "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
+        get_piece_from_fen(fen, cell_index) => {
+            FenUtils.get_piece_from_fen(fen, cell_index);
+        }
+        is_white_turn_in_fen(fen) => {
+            FenUtils.is_white_turn_in_fen(fen);
+        }
+    }
+
+    Chessboard {
+        size: min(root.width, root.height) * 0.4;
         reversed: true;
         positionFen: "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
         get_piece_from_fen(fen, cell_index) => {

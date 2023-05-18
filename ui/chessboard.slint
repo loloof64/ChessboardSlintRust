@@ -1,5 +1,5 @@
 export component Chessboard inherits Rectangle {
-    in property<length> size: min(root.width, root.height);
+    in property<length> size: 100px;
     in property <color> bgColor: cadetblue;
     in property <color> whiteCellColor: navajowhite;
     in property <color> blackCellColor: peru;
@@ -13,6 +13,8 @@ export component Chessboard inherits Rectangle {
     private property<length> cellsSize: size * 11.1%;
 
     background: bgColor;
+    width: size;
+    height: size;
 
     function intDivision(value: int, divisor: int) -> int {
         floor(value / divisor)
