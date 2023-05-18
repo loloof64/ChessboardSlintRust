@@ -1,10 +1,10 @@
 export component Chessboard inherits Rectangle {
+    in-out property<length> size: min(root.width, root.height);
     in property <color> bgColor: cadetblue;
     in property <color> whiteCellColor: navajowhite;
     in property <color> blackCellColor: peru;
     in property <color> coordinatesColor: yellow;
     in property <bool> reversed: false;
-    // Pieces from A8 to H1 (string array)
     in property <[string]> pieces: [
         "r", "n", "b", "q", "k", "b", "n", "r",
         "p", "p", "p", "p", "p", "p", "p", "p",
@@ -16,7 +16,7 @@ export component Chessboard inherits Rectangle {
         "R", "N", "B", "Q", "K", "B", "N", "R", 
     ];
     in property <bool> whiteTurn: true;
-    private property<length> cellsSize: min(root.width, root.height) * 11.1%;
+    private property<length> cellsSize: size * 11.1%;
 
     background: bgColor;
 
