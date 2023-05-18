@@ -12,13 +12,15 @@ export component App inherits Window {
     preferred-height: 200px;
     background: lemonchiffon;
 
+    pure callback get_current_position() -> string;
+
     HorizontalLayout {
         x: min(root.width, root.height) * 0.05;
         y: min(root.width, root.height) * 0.05;
         spacing: min(root.width, root.height) * 0.1;
         Chessboard {
             size: min(root.width, root.height) * 0.4;
-            positionFen: "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
+            positionFen: get-current-position();
             get_piece_from_fen(fen, cell_index) => {
                 FenUtils.get_piece_from_fen(fen, cell_index);
             }
@@ -30,7 +32,7 @@ export component App inherits Window {
         Chessboard {
             size: min(root.width, root.height) * 0.4;
             reversed: true;
-            positionFen: "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
+            positionFen: get-current-position();
             get_piece_from_fen(fen, cell_index) => {
                 FenUtils.get_piece_from_fen(fen, cell_index);
             }

@@ -17,3 +17,6 @@ slint-build = "1.0.2"
 [[example]]
 name = "demo"
 path = "examples/demo.rs"
+
+[dev-dependencies]
+pleco = "0.5.0"

@@ -6,11 +6,16 @@ export component Chessboard inherits Rectangle {
     in property <color> coordinatesColor: yellow;
     in property <bool> reversed: false;
     in property <string> positionFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    in property <color> startCellColor: crimson;
+    in property <color> endCellColor: green;
+    in property <color> crossCellsColor: darkorchid;
 
     pure callback get_piece_from_fen(string, int) -> string;
     pure callback is_white_turn_in_fen(string) -> bool;
 
     private property<length> cellsSize: size * 11.1%;
+    private property <int> startFile: -1;
+    private property <int> startRank: -1;
 
     background: bgColor;
     width: size;
@@ -21,7 +26,62 @@ export component Chessboard inherits Rectangle {
     }
 
     function cellBackground(cellIndex: int) -> color {
-        ((mod(mod(cellIndex, 8) +  intDivision(cellIndex, 8), 2)) == 0) ? whiteCellColor : blackCellColor
+        if (startFile == getFile(cellIndex) && startRank == getRank(cellIndex)) {
+            startCellColor
+        }
+        else if (getFile(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getFile(cellIndex) && 
+            getRank(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getRank(cellIndex)) {
+            endCellColor
+        }
+        else if (getFile(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getFile(cellIndex)
+         || getRank(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getRank(cellIndex)) {
+            crossCellsColor
+        }
+        else {
+            ((mod(mod(cellIndex, 8) +  intDivision(cellIndex, 8), 2)) == 0) ? whiteCellColor : blackCellColor
+        }
+    }
+
+    function handlePointerEvent(evt: PointerEvent) {
+        if (evt.button != PointerEventButton.left) {
+            return;
+        }
+        if (evt.kind == PointerEventKind.down) {
+            handlePressEvent();
+        } else if (evt.kind == PointerEventKind.up) {
+            handleReleaseEvent();
+        }
+    }
+
+    function getFile(cellIndex: int) -> int {
+        reversed ? 8 - mod(cellIndex, 8) : mod(cellIndex, 8)
+    }
+
+    function getRank(cellIndex: int) -> int {
+        reversed ? intDivision(cellIndex, 8) : 8 - intDivision(cellIndex, 8)
+    }
+
+    function getCol(x: length) -> int {
+        intDivision((x / 1px) - (cellsSize / 1px) * 0.5, cellsSize / 1px);
+    }
+
+    function getRow(y: length) -> int {
+        intDivision((y / 1px) - (cellsSize / 1px) * 0.5, cellsSize / 1px);
+    }
+
+    function getCellIndex(x: length, y: length) -> int {
+        8 * getRow(y) + getCol(x)
+    }
+
+
+    function handlePressEvent() {
+        startFile = getFile(getCellIndex(clickZone.pressed-x, clickZone.pressed-y));
+        startRank = getRank(getCellIndex(clickZone.pressed-x, clickZone.pressed-y));
+    }
+
+    function handleReleaseEvent() {
+        startFile = -1;
+        startRank = -1;
     }
 
     function cellImagePath(cellValue: string) -> image {
@@ -40,7 +100,15 @@ export component Chessboard inherits Rectangle {
         return @image-url("images/void.svg");
     }
 
-    for cellIndex in 64: Rectangle {
+    clickZone := TouchArea {
+        x: 0.5 * cellsSize;
+        y: 0.5 * cellsSize;
+        width: 8 * cellsSize;
+        height: 8 * cellsSize;
+        pointer-event(evt) => {handlePointerEvent(evt);}
+    }
+
+    for cellIndex in 64:  Rectangle{
         x: (mod(cellIndex, 8) + 0.5) * cellsSize;
         y: (intDivision(cellIndex, 8) + 0.5) * cellsSize;
         width: cellsSize;
