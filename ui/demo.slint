@@ -1,8 +1,9 @@
 import { Chessboard } from "chessboard.slint";
 
+// Setting up custom callbacks in order to be able to set them in the main function
 export global FenUtils {
-    pure callback get_piece_from_fen(string, int) -> string;
-    pure callback is_white_turn_in_fen(string) -> bool;
+    pure callback get_piece_from_fen(string, int) -> string; // (fen, cellIndex where a1 == 0)
+    pure callback is_white_turn_in_fen(string) -> bool; // (fen)
 }
 
 export component App inherits Window {

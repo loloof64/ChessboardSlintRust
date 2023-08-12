@@ -83,6 +83,7 @@ export component Chessboard inherits Rectangle {
 
     function handlePressEvent() {
         if (dndStarted) {return;}
+        if (!clickedPieceIsOfPlayerInTurn()) {return;}
         startFile = getFile(getCellIndex(clickZone.pressed-x, clickZone.pressed-y));
         startRank = getRank(getCellIndex(clickZone.pressed-x, clickZone.pressed-y));
         dndStarted = true;
@@ -109,6 +110,24 @@ export component Chessboard inherits Rectangle {
         if (cellValue == "q") {return @image-url("images/Chess_qdt45.svg");}
         if (cellValue == "k") {return @image-url("images/Chess_kdt45.svg");}
         return @image-url("images/void.svg");
+    }
+
+    function clickedPieceIsOfPlayerInTurn() -> bool {
+        return (is_white_turn_in_fen(positionFen) && isWhitePiece(getPieceAtClickedPosition()))
+        || (!is_white_turn_in_fen(positionFen) && isBlackPiece(getPieceAtClickedPosition()));
+        
+    }
+
+    function getPieceAtClickedPosition() -> string {
+        return get_piece_from_fen(positionFen, reversed ? 63 - getCellIndex(clickZone.pressed-x, clickZone.pressed-y) : getCellIndex(clickZone.pressed-x, clickZone.pressed-y));
+    }
+
+    function isWhitePiece(pieceValue: string) -> bool {
+        return pieceValue == "P" || pieceValue == "N" || pieceValue == "B" || pieceValue == "R" || pieceValue == "Q" || pieceValue == "K";
+    }
+
+    function isBlackPiece(pieceValue: string) -> bool {
+        return pieceValue == "p" || pieceValue == "n" || pieceValue == "b" || pieceValue == "r" || pieceValue == "q" || pieceValue == "k";
     }
 
     clickZone := TouchArea {
