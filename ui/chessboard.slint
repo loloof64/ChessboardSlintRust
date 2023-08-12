@@ -16,6 +16,7 @@ export component Chessboard inherits Rectangle {
     private property<length> cellsSize: size * 11.1%;
     private property <int> startFile: -1;
     private property <int> startRank: -1;
+    private property <bool> dndStarted: false;
 
     background: bgColor;
     width: size;
@@ -26,15 +27,15 @@ export component Chessboard inherits Rectangle {
     }
 
     function cellBackground(cellIndex: int) -> color {
-        if (startFile == getFile(cellIndex) && startRank == getRank(cellIndex)) {
+        if (dndStarted && startFile == getFile(cellIndex) && startRank == getRank(cellIndex)) {
             startCellColor
         }
-        else if (getFile(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getFile(cellIndex) && 
+        else if (dndStarted && getFile(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getFile(cellIndex) && 
             getRank(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getRank(cellIndex)) {
             endCellColor
         }
-        else if (getFile(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getFile(cellIndex)
-         || getRank(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getRank(cellIndex)) {
+        else if (dndStarted && (getFile(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getFile(cellIndex)
+         || getRank(getCellIndex(clickZone.mouse-x, clickZone.mouse-y)) == getRank(cellIndex))) {
             crossCellsColor
         }
         else {
@@ -81,13 +82,17 @@ export component Chessboard inherits Rectangle {
 
 
     function handlePressEvent() {
+        if (dndStarted) {return;}
         startFile = getFile(getCellIndex(clickZone.pressed-x, clickZone.pressed-y));
         startRank = getRank(getCellIndex(clickZone.pressed-x, clickZone.pressed-y));
+        dndStarted = true;
     }
 
     function handleReleaseEvent() {
+        if (!dndStarted) {return;}
         startFile = -1;
         startRank = -1;
+        dndStarted = false;
     }
 
     function cellImagePath(cellValue: string) -> image {
