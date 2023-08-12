@@ -62,15 +62,21 @@ export component Chessboard inherits Rectangle {
     }
 
     function getCol(x: length) -> int {
-        intDivision((x / 1px) - (cellsSize / 1px) * 0.5, cellsSize / 1px);
+        intDivision(lengthToInt(x), lengthToInt(cellsSize));
     }
 
     function getRow(y: length) -> int {
-        intDivision((y / 1px) - (cellsSize / 1px) * 0.5, cellsSize / 1px);
+        intDivision(lengthToInt(y), lengthToInt(cellsSize));
     }
 
     function getCellIndex(x: length, y: length) -> int {
-        8 * getRow(y) + getCol(x)
+        (x >= 0 && x <= 8*cellsSize && y >= 0 && y<= 8*cellsSize) ?
+        8 * getRow(y) + getCol(x) :
+        -1
+    }
+
+    function lengthToInt(l: length) -> int {
+        floor(l / 1px)
     }
 
 
